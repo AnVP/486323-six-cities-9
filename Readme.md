@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Анна Почкина](https://up.htmlacademy.ru/react/9/user/486323).
-* Наставник: `Неизвестно`.
+* Наставник: [Артём Рудов](https://htmlacademy.ru/profile/artrudov).
 
 ---
 
