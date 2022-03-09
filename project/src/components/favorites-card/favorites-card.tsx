@@ -3,22 +3,18 @@ import {Offer} from '../../types/offers';
 
 type OfferProps = {
   offer: Offer;
-  handleMouseOver: (item: number) => void;
 }
 
-function PlaceCard(props: OfferProps): JSX.Element {
-  const {offer, handleMouseOver} = props;
+function FavoritesCard(props: OfferProps): JSX.Element {
+  const {offer} = props;
   return (
-    <article className="cities__place-card place-card"
-      onMouseOver={() => handleMouseOver(offer.id)}
-    >
-      {offer.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+    <article className="favorites__card place-card">
+      <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/:${offer.id}`}>
-          <img className="place-card__image" src={offer.image[0]} width="260" height="200" alt="Place image"/>
+          <img className="place-card__image" src={offer.image[0]} width="150" height="110" alt="Place image"/>
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{offer.price}</b>
@@ -46,4 +42,4 @@ function PlaceCard(props: OfferProps): JSX.Element {
   );
 }
 
-export default PlaceCard;
+export default FavoritesCard;

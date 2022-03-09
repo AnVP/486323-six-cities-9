@@ -1,13 +1,14 @@
 import Header from '../header/header';
 import Locations from '../locations/locations';
-import PlaceCard from '../place-card/place-card';
+import OfferList from '../offer-list/offer-list';
+import {Offers} from '../../types/offers';
 
 type MainScreenProps = {
-  cardsCount: number;
+  cards: Offers;
   offersCount: number;
 }
 
-function MainScreen({cardsCount, offersCount}: MainScreenProps): JSX.Element  {
+function MainScreen({cards, offersCount}: MainScreenProps): JSX.Element  {
   return (
     <>
       <div style={{display: 'none'}}>
@@ -45,18 +46,14 @@ function MainScreen({cardsCount, offersCount}: MainScreenProps): JSX.Element  {
                       <use xlinkHref="#icon-arrow-select"></use>
                     </svg>
                   </span>
-                  <ul className="places__options places__options--custom places__options--opened">
+                  <ul className="places__options places__options--custom">
                     <li className="places__option places__option--active" tabIndex={0}>Popular</li>
                     <li className="places__option" tabIndex={0}>Price: low to high</li>
                     <li className="places__option" tabIndex={0}>Price: high to low</li>
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <div className="cities__places-list places__list tabs__content">
-                  {
-                    Array.from({length: cardsCount}, (item, index) => index).map((id) => <PlaceCard key={id}/>)
-                  }
-                </div>
+                <OfferList offers={cards}/>
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map"></section>
