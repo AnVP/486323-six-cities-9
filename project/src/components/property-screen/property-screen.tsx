@@ -40,7 +40,7 @@ function PropertyScreen({offers, comments}: OfferProps): JSX.Element  {
             <div className="property__gallery-container container">
               <div className="property__gallery">
                 {
-                  offer.image.map((image) => (
+                  offer.images.map((image) => (
                     <div key={image} className="property__image-wrapper">
                       <img className="property__image" src={image} alt="Photo studio"/>
                     </div>
@@ -50,16 +50,16 @@ function PropertyScreen({offers, comments}: OfferProps): JSX.Element  {
             </div>
             <div className="property__container container">
               <div className="property__wrapper">
-                {offer.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
+                {offer.isPremium && <div className="property__mark"><span>Premium</span></div>}
                 <div className="property__name-wrapper">
                   <h1 className="property__name">
                     Beautiful &amp; luxurious studio at great location
                   </h1>
-                  <button className={`place-card__bookmark-button button ${offer.isBookMark ? 'place-card__bookmark-button--active' : ''}`} type="button">
+                  <button className={`property__bookmark-button button ${offer.isFavorite ? 'property__bookmark-button--active' : ''}`} type="button">
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>
-                    <span className="visually-hidden">{offer.isBookMark ? 'In bookmarks' : 'To bookmarks'}</span>
+                    <span className="visually-hidden">{offer.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
                   </button>
                 </div>
                 <div className="property__rating rating">
@@ -77,7 +77,7 @@ function PropertyScreen({offers, comments}: OfferProps): JSX.Element  {
                     {offer.bedrooms} Bedrooms
                   </li>
                   <li className="property__feature property__feature--adults">
-                    Max {offer.adult} adults
+                    Max {offer.maxAdults} adults
                   </li>
                 </ul>
                 <div className="property__price">
@@ -88,7 +88,7 @@ function PropertyScreen({offers, comments}: OfferProps): JSX.Element  {
                   <h2 className="property__inside-title">What&apos;s inside</h2>
                   <ul className="property__inside-list">
                     {
-                      offer.inside.map((item) => (<li key={item} className="property__inside-item">{item}</li>))
+                      offer.goods.map((item) => (<li key={item} className="property__inside-item">{item}</li>))
                     }
                   </ul>
                 </div>
@@ -96,7 +96,7 @@ function PropertyScreen({offers, comments}: OfferProps): JSX.Element  {
                   <h2 className="property__host-title">Meet the host</h2>
                   <div className="property__host-user user">
                     <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                      <img className="property__avatar user__avatar" src={offer.host.avatar} width="74" height="74" alt="Host avatar"/>
+                      <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar"/>
                     </div>
                     <span className="property__user-name">
                       {offer.host.name}
@@ -105,7 +105,7 @@ function PropertyScreen({offers, comments}: OfferProps): JSX.Element  {
                   </div>
                   <div className="property__description">
                     {
-                      offer.host.text.split('. ').map((text) => (
+                      offer.description.split('. ').map((text) => (
                         <p key={text} className="property__text">
                           {text}
                         </p>

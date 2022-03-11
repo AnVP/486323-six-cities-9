@@ -1,37 +1,44 @@
 export type Offer = {
-  id: number,
-  name: string,
-  image: string[],
-  price: number,
-  type: string,
   bedrooms: number,
-  adult: number,
-  isPremium: boolean,
-  isBookMark: boolean,
-  isFavorite: boolean,
-  rating: number,
-  inside: string[],
-  host: Host,
   city: {
+    location: Location,
     name: string,
-  }
+  },
+  description: string,
+  goods: string[],
+  host: User,
+  id: number,
+  images: string[],
+  isFavorite: boolean,
+  isPremium: boolean,
+  location: Location,
+  maxAdults: number,
+  previewImage: string,
+  price: number,
+  rating: number,
+  title: string,
+  type: string,
 }
 
-export type Host = {
+export type User = {
+  avatarUrl: string,
   id: number,
+  isPro: boolean,
   name: string,
-  avatar: string,
-  text: string,
-  isPro: boolean
 }
 
 export type Review = {
+  comment: string,
+  date: string,
   id: number,
-  name: string,
-  avatar: string,
-  text: string,
   rating: number,
-  time: string
+  user: User,
+}
+
+export type Location = {
+  latitude: number,
+  longitude: number,
+  zoom: number,
 }
 
 export type Offers = Offer[];

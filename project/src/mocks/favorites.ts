@@ -1,6 +1,6 @@
 import {Offer} from '../types/offers';
 
-export const offers: Offer[] = [
+export const favoriteOffers: Offer[] = [
   {
     id: 1,
     title: 'Beautiful &amp; luxurious apartment at great location',
@@ -113,7 +113,7 @@ export const offers: Offer[] = [
     bedrooms: 4,
     maxAdults: 4,
     isPremium: false,
-    isFavorite: false,
+    isFavorite: true,
     rating: 4,
     goods: ['Wi-Fi', 'Washing machine', 'Towels'],
     host: {

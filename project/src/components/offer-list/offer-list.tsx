@@ -8,8 +8,7 @@ type OfferProps = {
 
 function OfferList(props: OfferProps): JSX.Element {
   const {offers} = props;
-  // eslint-disable-next-line
-  const [activeCard, setActiveCard] = useState(0);
+  const [, setActiveCard] = useState(0);
   return (
     <div className="cities__places-list places__list tabs__content">
       {

@@ -2,6 +2,7 @@ import Header from '../header/header';
 import Footer from '../footer/footer';
 import FavoritesCard from '../favorites-card/favorites-card';
 import {Offers} from '../../types/offers';
+import {Link} from 'react-router-dom';
 
 type FavoritesScreenProps = {
   offers: Offers;
@@ -39,15 +40,15 @@ function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element  {
                     <li key={location} className="favorites__locations-items">
                       <div className="favorites__locations locations locations--current">
                         <div className="locations__item">
-                          <a className="locations__item-link" href="#">
+                          <Link to='/' className="locations__item-link">
                             <span>{location}</span>
-                          </a>
+                          </Link>
                         </div>
                       </div>
                       <div className="favorites__places">
                         {
                           offers.filter((offer) => offer.city.name === location).map(
-                            (item) => <FavoritesCard offer={item} key={item.id} />)
+                            (offer) => <FavoritesCard offer={offer} key={offer.id} />)
                         }
                       </div>
                     </li>

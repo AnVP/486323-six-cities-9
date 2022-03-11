@@ -1,7 +1,7 @@
-import {useState, ChangeEvent} from 'react';
+import React, {useState, ChangeEvent} from 'react';
+import {ratingList} from '../../const';
 
 function CommentForm(): JSX.Element {
-  // eslint-disable-next-line
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
   const handleRatingChange = ({target}: ChangeEvent<HTMLInputElement>) => {
@@ -14,43 +14,35 @@ function CommentForm(): JSX.Element {
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <div className="reviews__rating-form form__rating" onChange={handleRatingChange}>
-        <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio"/>
-        <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio"/>
-        <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio"/>
-        <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio"/>
-        <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio"/>
-        <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
+      <div className="reviews__rating-form form__rating">
+        {
+          ratingList.map((ratingItem, index) => (
+            <React.Fragment key={ratingItem.id}>
+              <input onChange={handleRatingChange}
+                checked={(ratingList.length - index) === Number(rating)}
+                className="form__rating-input visually-hidden"
+                name="rating" value={ratingList.length - index}
+                id={ratingItem.id} type="radio"
+              />
+              <label htmlFor={ratingItem.id}
+                className="reviews__rating-label form__rating-label"
+                title={ratingItem.title}
+              >
+                <svg className="form__star-image" width="37" height="33">
+                  <use xlinkHref="#icon-star"></use>
+                </svg>
+              </label>
+            </React.Fragment>
+          ))
+        }
       </div>
-      <textarea onChange={handleCommentChange} value={comment} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
+      <textarea onChange={handleCommentChange}
+        value={comment} className="reviews__textarea form__textarea"
+        id="review"
+        name="review"
+        placeholder="Tell how was your stay, what you like and what can be improved"
+      >
+      </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and
