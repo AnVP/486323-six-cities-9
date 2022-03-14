@@ -1,14 +1,21 @@
+import {useState} from 'react';
 import Header from '../header/header';
 import Locations from '../locations/locations';
 import OfferList from '../offer-list/offer-list';
-import {Offers} from '../../types/offers';
+import Map from '../map/map';
+import {Offer} from '../../types/offers';
 
 type MainScreenProps = {
-  cards: Offers;
+  cards: Offer[];
   offersCount: number;
 }
 
 function MainScreen({cards, offersCount}: MainScreenProps): JSX.Element  {
+  const [activeCard, setActiveCard] = useState<Offer | undefined>(undefined);
+  const handleCardHover = (offerId: number | undefined) => {
+    const currentOffer = cards.find((offer) => offer.id === offerId);
+    setActiveCard(currentOffer);
+  };
   return (
     <>
       <div style={{display: 'none'}}>
@@ -53,10 +60,12 @@ function MainScreen({cards, offersCount}: MainScreenProps): JSX.Element  {
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <OfferList offers={cards}/>
+                <OfferList offers={cards} handleCardHover={handleCardHover}/>
               </section>
               <div className="cities__right-section">
-                <section className="cities__map map"></section>
+                <section className="cities__map map">
+                  <Map offers={cards} point={cards[0].city.location} selectedPoint={activeCard}/>
+                </section>
               </div>
             </div>
           </div>

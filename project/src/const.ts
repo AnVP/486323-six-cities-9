@@ -1,3 +1,10 @@
+export const URL_MARKER_DEFAULT = 'img/pin.svg';
+export const URL_MARKER_ACTIVE = 'img/pin-active.svg';
+export const MARKER_SIZE_X = 29;
+export const MARKER_SIZE_Y = 39;
+export const MARKER_ANCHOR_X = 20;
+export const MARKER_ANCHOR_Y = 40;
+
 export enum AppRoute {
   Login = '/login',
   Root = '/',
