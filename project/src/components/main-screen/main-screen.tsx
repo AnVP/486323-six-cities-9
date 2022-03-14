@@ -11,11 +11,10 @@ type MainScreenProps = {
 }
 
 function MainScreen({cards, offersCount}: MainScreenProps): JSX.Element  {
-  const [activeCard, setActiveCard] = useState<Offer | undefined>(undefined);
-  const handleCardHover = (offerId: number | undefined) => {
-    const currentOffer = cards.find((offer) => offer.id === offerId);
-    setActiveCard(currentOffer);
-  };
+  const [activeCardId, setActiveCardId] = useState<number | undefined>(undefined);
+
+  const handleCardHover = (offerId: number | undefined) => setActiveCardId(offerId);
+
   return (
     <>
       <div style={{display: 'none'}}>
@@ -60,11 +59,11 @@ function MainScreen({cards, offersCount}: MainScreenProps): JSX.Element  {
                     <li className="places__option" tabIndex={0}>Top rated first</li>
                   </ul>
                 </form>
-                <OfferList offers={cards} handleCardHover={handleCardHover}/>
+                <OfferList offers={cards} onCardHover={handleCardHover}/>
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map">
-                  <Map offers={cards} point={cards[0].city.location} selectedPoint={activeCard}/>
+                  <Map offers={cards} point={cards[0].city.location} selectedPoint={activeCardId}/>
                 </section>
               </div>
             </div>

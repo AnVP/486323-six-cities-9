@@ -3,12 +3,12 @@ import PlaceCard from '../place-card/place-card';
 
 type OfferProps = {
   offers: Offers;
-  handleCardHover: (id: number) => void;
+  onCardHover: (id: number) => void;
 }
 
 function OfferList(props: OfferProps): JSX.Element {
-  const {offers, handleCardHover} = props;
-  const handleItemHover = (id: number) => handleCardHover(id);
+  const {offers, onCardHover} = props;
+
   return (
     <div className="cities__places-list places__list tabs__content">
       {
@@ -16,7 +16,7 @@ function OfferList(props: OfferProps): JSX.Element {
           <PlaceCard
             offer={offer}
             key={offer.id}
-            handleMouseOver={handleItemHover}
+            onMouseOver={onCardHover}
           />))
       }
     </div>

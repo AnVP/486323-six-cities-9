@@ -8,7 +8,7 @@ import {URL_MARKER_DEFAULT, URL_MARKER_ACTIVE, MARKER_SIZE_X, MARKER_SIZE_Y, MAR
 type MapProps = {
   offers: Offer[];
   point: Location;
-  selectedPoint: Offer | undefined;
+  selectedPoint: number | undefined;
 }
 
 const defaultCustomIcon = new Icon({
@@ -26,6 +26,7 @@ const currentCustomIcon = new Icon({
 function Map({offers, point, selectedPoint}:MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, point);
+
   useEffect(() => {
     if (map) {
       offers.forEach((offer) => {
@@ -33,13 +34,15 @@ function Map({offers, point, selectedPoint}:MapProps): JSX.Element {
           lat: offer.city.location.latitude,
           lng: offer.city.location.longitude,
         });
-        marker.setIcon(selectedPoint !== undefined && offer.id === selectedPoint.id
+
+        marker.setIcon(selectedPoint !== undefined && offer.id === selectedPoint
           ? currentCustomIcon
           : defaultCustomIcon,
         ).addTo(map);
       });
     }
   }, [map, offers, selectedPoint]);
+
   return (
     <div style={{height: '100%'}}
       ref={mapRef}
