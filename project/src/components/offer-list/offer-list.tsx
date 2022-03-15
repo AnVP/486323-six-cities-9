@@ -10,7 +10,7 @@ function OfferList(props: OfferProps): JSX.Element {
   const {offers, onCardHover} = props;
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <>
       {
         offers.map((offer) => (
           <PlaceCard
@@ -19,7 +19,7 @@ function OfferList(props: OfferProps): JSX.Element {
             onMouseOver={onCardHover}
           />))
       }
-    </div>
+    </>
   );
 }
 
