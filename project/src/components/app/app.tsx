@@ -13,9 +13,10 @@ type AppScreenProps = {
   offers: Offers;
   favoriteOffers: Offers;
   comments: Review[];
+  offersNear: Offers;
 }
 
-function App({offers, offersCount, comments, favoriteOffers}: AppScreenProps): JSX.Element {
+function App({offers, offersCount, comments, favoriteOffers, offersNear}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -37,7 +38,7 @@ function App({offers, offersCount, comments, favoriteOffers}: AppScreenProps): J
         />
         <Route
           path={AppRoute.Room}
-          element={<PropertyScreen offers={offers} comments={comments} />}
+          element={<PropertyScreen offers={offers} comments={comments} offersNear={offersNear} />}
         />
         <Route
           path='*'
