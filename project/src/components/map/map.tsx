@@ -8,7 +8,7 @@ import {URL_MARKER_DEFAULT, URL_MARKER_ACTIVE, MARKER_SIZE_X, MARKER_SIZE_Y, MAR
 type MapProps = {
   offers: Offer[];
   point: Location;
-  selectedPoint: number | undefined;
+  selectedPoint: number | null;
 }
 
 const defaultCustomIcon = new Icon({

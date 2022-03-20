@@ -3,17 +3,28 @@ import Header from '../header/header';
 import Locations from '../locations/locations';
 import OfferList from '../offer-list/offer-list';
 import Map from '../map/map';
+import MainEmptyScreen from '../main-empty-screen/main-empty-screen';
+import PlacesSorting from '../places-sorting/places-sorting';
 import {Offer} from '../../types/offers';
+import {City} from '../../types/city';
+import {Sort} from '../../types/sort';
+import {sortList} from '../../const';
+import {sortOffers} from '../../utils';
 
 type MainScreenProps = {
   cards: Offer[];
-  offersCount: number;
+  city: City;
 }
 
-function MainScreen({cards, offersCount}: MainScreenProps): JSX.Element  {
-  const [activeCardId, setActiveCardId] = useState<number | undefined>(undefined);
+function MainScreen({cards, city}: MainScreenProps): JSX.Element  {
+  const filteredCityOffers = cards.filter((card) => card.city.name === city);
 
-  const handleCardHover = (offerId: number | undefined) => setActiveCardId(offerId);
+  const [activeCardId, setActiveCardId] = useState<number | null>(null);
+
+  const handleCardHover = (offerId: number | null) => setActiveCardId(offerId);
+
+  const [sortType, setSortType] = useState<Sort>(sortList[0]);
+  const sortedOffers = sortOffers(sortType.type, filteredCityOffers);
 
   return (
     <>
@@ -37,38 +48,26 @@ function MainScreen({cards, offersCount}: MainScreenProps): JSX.Element  {
         <main className="page__main page__main--index">
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
-            <Locations />
+            <Locations city={city} />
           </div>
           <div className="cities">
-            <div className="cities__places-container container">
-              <section className="cities__places places">
-                <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{offersCount} places to stay in Amsterdam</b>
-                <form className="places__sorting" action="#" method="get">
-                  <span className="places__sorting-caption">Sort by</span>
-                  <span className="places__sorting-type" tabIndex={0}>
-                    Popular
-                    <svg className="places__sorting-arrow" width="7" height="4">
-                      <use xlinkHref="#icon-arrow-select"></use>
-                    </svg>
-                  </span>
-                  <ul className="places__options places__options--custom">
-                    <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                    <li className="places__option" tabIndex={0}>Price: low to high</li>
-                    <li className="places__option" tabIndex={0}>Price: high to low</li>
-                    <li className="places__option" tabIndex={0}>Top rated first</li>
-                  </ul>
-                </form>
-                <div className="cities__places-list places__list tabs__content">
-                  <OfferList offers={cards} onCardHover={handleCardHover}/>
-                </div>
-              </section>
-              <div className="cities__right-section">
-                <section className="cities__map map">
-                  <Map offers={cards} point={cards[0].city.location} selectedPoint={activeCardId}/>
+            {filteredCityOffers.length ?
+              <div className="cities__places-container container">
+                <section className="cities__places places">
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">{filteredCityOffers.length} places to stay in {city}</b>
+                  <PlacesSorting sortType={sortType} setSortType={setSortType}/>
+                  <div className="cities__places-list places__list tabs__content">
+                    <OfferList offers={sortedOffers} onCardHover={handleCardHover}/>
+                  </div>
                 </section>
+                <div className="cities__right-section">
+                  <section className="cities__map map">
+                    <Map offers={sortedOffers} point={filteredCityOffers[0].city.location} selectedPoint={activeCardId}/>
+                  </section>
+                </div>
               </div>
-            </div>
+              : <MainEmptyScreen/>}
           </div>
         </main>
       </div>

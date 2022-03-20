@@ -137,4 +137,38 @@ export const offers: Offer[] = [
       zoom: 8,
     },
   },
+  {
+    id: 5,
+    title: 'Nice, cozy, warm big bed apartment',
+    images: ['img/room.jpg'],
+    previewImage: 'img/room.jpg',
+    price: 140,
+    type: 'Apartment',
+    bedrooms: 4,
+    maxAdults: 4,
+    isPremium: false,
+    isFavorite: false,
+    rating: 4,
+    goods: ['Wi-Fi', 'Washing machine', 'Towels'],
+    host: {
+      id: 7777,
+      name: 'Angelina',
+      avatarUrl: 'img/avatar-angelina.jpg',
+      isPro: true,
+    },
+    description: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
+    city: {
+      name: 'Cologne',
+      location: {
+        latitude: 52.3809553943508,
+        longitude: 4.939309666406198,
+        zoom: 10,
+      },
+    },
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 8,
+    },
+  },
 ];

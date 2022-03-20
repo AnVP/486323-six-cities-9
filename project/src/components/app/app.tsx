@@ -6,23 +6,18 @@ import LoginScreen from '../login-screen/login-screen';
 import PropertyScreen from '../property-screen/property-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import {Offers, Review} from '../../types/offers';
+import {State} from '../../types/state';
+import {useSelector} from 'react-redux';
 
-type AppScreenProps = {
-  offersCount: number;
-  offers: Offers;
-  favoriteOffers: Offers;
-  comments: Review[];
-  offersNear: Offers;
-}
+function App(): JSX.Element {
+  const {offers, city, comments, favoriteOffers, offersNear} = useSelector((state: State) => state);
 
-function App({offers, offersCount, comments, favoriteOffers, offersNear}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Root}
-          element={<MainScreen cards={offers} offersCount={offersCount}/>}
+          element={<MainScreen cards={offers} city={city} />}
         />
         <Route
           path={AppRoute.Favorites}

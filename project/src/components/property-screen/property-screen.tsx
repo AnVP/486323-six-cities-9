@@ -15,8 +15,8 @@ type OfferProps = {
 }
 
 function PropertyScreen({offers, comments, offersNear}: OfferProps): JSX.Element  {
-  const [activeCardId, setActiveCardId] = useState<number | undefined>(undefined);
-  const handleCardHover = (offerId: number | undefined) => setActiveCardId(offerId);
+  const [activeCardId, setActiveCardId] = useState<number | null>(null);
+  const handleCardHover = (offerId: number | null) => setActiveCardId(offerId);
 
   const {id} = useParams<{id?: string}>();
   const offer: Offer | undefined = offers.find((item) => item.id === Number(id?.slice(1)));
