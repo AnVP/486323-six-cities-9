@@ -18,6 +18,10 @@ type MainScreenProps = {
 
 function MainScreen({cards, city}: MainScreenProps): JSX.Element  {
   const filteredCityOffers = cards.filter((card) => card.city.name === city);
+  let location;
+  filteredCityOffers.length
+    ? location = filteredCityOffers[0].city.location
+    : location = cards[0].city.location;
 
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
@@ -63,7 +67,10 @@ function MainScreen({cards, city}: MainScreenProps): JSX.Element  {
                 </section>
                 <div className="cities__right-section">
                   <section className="cities__map map">
-                    <Map offers={sortedOffers} point={filteredCityOffers[0].city.location} selectedPoint={activeCardId}/>
+                    <Map offers={sortedOffers}
+                      point={location}
+                      selectedPoint={activeCardId}
+                    />
                   </section>
                 </div>
               </div>

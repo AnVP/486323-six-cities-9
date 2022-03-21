@@ -51,7 +51,7 @@ function PropertyScreen({offers, comments, offersNear}: OfferProps): JSX.Element
                 {
                   offer.images.map((image) => (
                     <div key={image} className="property__image-wrapper">
-                      <img className="property__image" src={image} alt="Photo studio"/>
+                      <img className="property__image" src={image} alt="studio"/>
                     </div>
                   ))
                 }

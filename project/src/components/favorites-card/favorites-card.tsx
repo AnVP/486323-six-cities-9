@@ -15,7 +15,7 @@ function FavoritesCard(props: OfferProps): JSX.Element {
             src={offer.previewImage}
             width="150"
             height="110"
-            alt="Place image"
+            alt="Place"
           />
         </Link>
       </div>

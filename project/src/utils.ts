@@ -19,6 +19,8 @@ export const sortOffers = (type: string, offers: Offer[]) => {
     case SortType.TOP_RATED: {
       return newOffers.sort(sortRating);
     }
+    default: {
+      return newOffers;
+    }
   }
-  return newOffers;
 };

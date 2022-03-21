@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+import {MouseEvent} from 'react';
 import {cities} from '../../const';
 import {City} from '../../types/city';
 import {useAppDispatch} from '../../hooks';
@@ -16,14 +18,15 @@ function Locations({city}: LocationProps): JSX.Element {
         {
           cities.map((item) => (
             <li key={item} className="locations__item">
-              <a className={`locations__item-link tabs__item ${item === city ? 'tabs__item--active' : ''}`}
-                href="#"
-                onClick={() => {
+              <Link className={`locations__item-link tabs__item ${item === city ? 'tabs__item--active' : ''}`}
+                to={`${item}`}
+                onClick={(evt: MouseEvent<HTMLAnchorElement>) => {
+                  evt.preventDefault();
                   dispatch(changeCity(item));
                 }}
               >
                 <span>{item}</span>
-              </a>
+              </Link>
             </li>
           ))
         }
