@@ -1,37 +1,35 @@
-function Locations(): JSX.Element {
+import {Link} from 'react-router-dom';
+import {MouseEvent} from 'react';
+import {cities} from '../../const';
+import {City} from '../../types/city';
+import {useAppDispatch} from '../../hooks';
+import {changeCity} from '../../store/action';
+
+type LocationProps = {
+  city: City;
+}
+
+function Locations({city}: LocationProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
-        <li className="locations__item">
-          <a className="locations__item-link tabs__item" href="#">
-            <span>Paris</span>
-          </a>
-        </li>
-        <li className="locations__item">
-          <a className="locations__item-link tabs__item" href="#">
-            <span>Cologne</span>
-          </a>
-        </li>
-        <li className="locations__item">
-          <a className="locations__item-link tabs__item" href="#">
-            <span>Brussels</span>
-          </a>
-        </li>
-        <li className="locations__item">
-          <a className="locations__item-link tabs__item tabs__item--active">
-            <span>Amsterdam</span>
-          </a>
-        </li>
-        <li className="locations__item">
-          <a className="locations__item-link tabs__item" href="#">
-            <span>Hamburg</span>
-          </a>
-        </li>
-        <li className="locations__item">
-          <a className="locations__item-link tabs__item" href="#">
-            <span>Dusseldorf</span>
-          </a>
-        </li>
+        {
+          cities.map((item) => (
+            <li key={item} className="locations__item">
+              <Link className={`locations__item-link tabs__item ${item === city ? 'tabs__item--active' : ''}`}
+                to={`${item}`}
+                onClick={(evt: MouseEvent<HTMLAnchorElement>) => {
+                  evt.preventDefault();
+                  dispatch(changeCity(item));
+                }}
+              >
+                <span>{item}</span>
+              </Link>
+            </li>
+          ))
+        }
       </ul>
     </section>
   );

@@ -1,3 +1,5 @@
+import {Sort} from './types/sort';
+
 export const URL_MARKER_DEFAULT = 'img/pin.svg';
 export const URL_MARKER_ACTIVE = 'img/pin-active.svg';
 export const MARKER_SIZE_X = 29;
@@ -38,5 +40,40 @@ export const ratingList: {id: string, title: string}[] = [
   {
     id: '1-stars',
     title: 'terribly',
+  },
+];
+
+export const cities = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
+
+export const SortType = {
+  DEFAULT: 'default',
+  PRICE_TO_HIGH: 'price-to-high',
+  PRICE_TO_LOW: 'price-to-low',
+  TOP_RATED: 'top-rated',
+};
+
+export const sortList: Sort[] = [
+  {
+    type: SortType.DEFAULT,
+    name: 'Popular',
+  },
+  {
+    type: SortType.PRICE_TO_HIGH,
+    name: 'Price: low to high',
+  },
+  {
+    type: SortType.PRICE_TO_LOW,
+    name: 'Price: high to low',
+  },
+  {
+    type: SortType.TOP_RATED,
+    name: 'Top rated first',
   },
 ];

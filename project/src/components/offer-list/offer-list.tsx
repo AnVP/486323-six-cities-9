@@ -3,7 +3,7 @@ import PlaceCard from '../place-card/place-card';
 
 type OfferProps = {
   offers: Offers;
-  onCardHover: (id: number) => void;
+  onCardHover: (id: number | null) => void;
 }
 
 function OfferList(props: OfferProps): JSX.Element {
@@ -17,6 +17,7 @@ function OfferList(props: OfferProps): JSX.Element {
             offer={offer}
             key={offer.id}
             onMouseOver={onCardHover}
+            onMouseLeave={() => onCardHover(null)}
           />))
       }
     </>
