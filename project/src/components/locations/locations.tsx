@@ -1,16 +1,13 @@
 import {Link} from 'react-router-dom';
 import {MouseEvent} from 'react';
 import {cities} from '../../const';
-import {City} from '../../types/city';
-import {useAppDispatch} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeCity} from '../../store/action';
+import {State} from '../../types/state';
 
-type LocationProps = {
-  city: City;
-}
-
-function Locations({city}: LocationProps): JSX.Element {
+function Locations(): JSX.Element {
   const dispatch = useAppDispatch();
+  const cityCurrent = useAppSelector(({city}: State) => city);
 
   return (
     <section className="locations container">
@@ -18,7 +15,7 @@ function Locations({city}: LocationProps): JSX.Element {
         {
           cities.map((item) => (
             <li key={item} className="locations__item">
-              <Link className={`locations__item-link tabs__item ${item === city ? 'tabs__item--active' : ''}`}
+              <Link className={`locations__item-link tabs__item ${item === cityCurrent ? 'tabs__item--active' : ''}`}
                 to={`${item}`}
                 onClick={(evt: MouseEvent<HTMLAnchorElement>) => {
                   evt.preventDefault();

@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import MainScreen from '../main-screen/main-screen';
 import FavoritesScreen from '../favorites-screen/favorites-screen';
@@ -6,24 +6,35 @@ import LoginScreen from '../login-screen/login-screen';
 import PropertyScreen from '../property-screen/property-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import {State} from '../../types/state';
-import {useSelector} from 'react-redux';
+import LoadingScreen from '../loading-screen/loading-screen';
+import {useAppSelector} from '../../hooks';
+import browserHistory from '../../browser-history';
+import HistoryRouter from '../history-route/history-route';
+
+const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.Unknown;
 
 function App(): JSX.Element {
-  const {offers, city, comments, favoriteOffers, offersNear} = useSelector((state: State) => state);
+  const {authorizationStatus, isDataLoaded} = useAppSelector((state) => state);
+
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Root}
-          element={<MainScreen cards={offers} city={city} />}
+          element={<MainScreen />}
         />
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-              <FavoritesScreen offers={favoriteOffers} />
+            <PrivateRoute authorizationStatus={authorizationStatus}>
+              <FavoritesScreen />
             </PrivateRoute>
           }
         />
@@ -33,14 +44,14 @@ function App(): JSX.Element {
         />
         <Route
           path={AppRoute.Room}
-          element={<PropertyScreen offers={offers} comments={comments} offersNear={offersNear} />}
+          element={<PropertyScreen />}
         />
         <Route
           path='*'
           element={<NotFoundScreen />}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

@@ -35,6 +35,12 @@ export type Review = {
   user: User,
 }
 
+export type ReviewPost = {
+  comment: string,
+  id: number | undefined,
+  rating: number,
+}
+
 export type Location = {
   latitude: number,
   longitude: number,

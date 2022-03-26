@@ -5,19 +5,16 @@ import OfferList from '../offer-list/offer-list';
 import Map from '../map/map';
 import MainEmptyScreen from '../main-empty-screen/main-empty-screen';
 import PlacesSorting from '../places-sorting/places-sorting';
-import {Offer} from '../../types/offers';
-import {City} from '../../types/city';
 import {Sort} from '../../types/sort';
 import {sortList} from '../../const';
 import {sortOffers} from '../../utils';
+import {useAppSelector} from '../../hooks';
+import {State} from '../../types/state';
 
-type MainScreenProps = {
-  cards: Offer[];
-  city: City;
-}
-
-function MainScreen({cards, city}: MainScreenProps): JSX.Element  {
-  const filteredCityOffers = cards.filter((card) => card.city.name === city);
+function MainScreen(): JSX.Element  {
+  const cards = useAppSelector(({offers}: State) => offers);
+  const cityCurrent = useAppSelector(({city}: State) => city);
+  const filteredCityOffers = cards.filter((card) => card.city.name === cityCurrent);
   let location;
   filteredCityOffers.length
     ? location = filteredCityOffers[0].city.location
@@ -52,14 +49,14 @@ function MainScreen({cards, city}: MainScreenProps): JSX.Element  {
         <main className="page__main page__main--index">
           <h1 className="visually-hidden">Cities</h1>
           <div className="tabs">
-            <Locations city={city} />
+            <Locations />
           </div>
           <div className="cities">
             {filteredCityOffers.length ?
               <div className="cities__places-container container">
                 <section className="cities__places places">
                   <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{filteredCityOffers.length} places to stay in {city}</b>
+                  <b className="places__found">{filteredCityOffers.length} places to stay in {cityCurrent}</b>
                   <PlacesSorting sortType={sortType} setSortType={setSortType}/>
                   <div className="cities__places-list places__list tabs__content">
                     <OfferList offers={sortedOffers} onCardHover={handleCardHover}/>
@@ -67,7 +64,7 @@ function MainScreen({cards, city}: MainScreenProps): JSX.Element  {
                 </section>
                 <div className="cities__right-section">
                   <section className="cities__map map">
-                    <Map offers={sortedOffers}
+                    <Map offers={filteredCityOffers}
                       point={location}
                       selectedPoint={activeCardId}
                     />

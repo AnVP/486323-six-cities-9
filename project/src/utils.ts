@@ -24,3 +24,8 @@ export const sortOffers = (type: string, offers: Offer[]) => {
     }
   }
 };
+
+export const dateFormatted = (date: string) => new Date(date).toLocaleDateString('en-US', {
+  month: 'long',
+  year: 'numeric',
+});

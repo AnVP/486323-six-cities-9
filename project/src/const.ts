@@ -7,6 +7,16 @@ export const MARKER_SIZE_Y = 39;
 export const MARKER_ANCHOR_X = 20;
 export const MARKER_ANCHOR_Y = 40;
 
+export const TIMEOUT_SHOW_ERROR = 2000;
+
+export const MIN_COMMENTS_LENGTH = 50;
+
+export enum HTTP_CODE {
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  NOT_FOUND = 404,
+}
+
 export enum AppRoute {
   Login = '/login',
   Root = '/',
@@ -18,6 +28,15 @@ export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
+}
+
+export enum APIRoute {
+  Offers= '/hotels',
+  Login = '/login',
+  Logout = '/logout',
+  Favorites = '/favorites',
+  Nearby = '/nearby',
+  Comments = '/comments',
 }
 
 export const ratingList: {id: string, title: string}[] = [
