@@ -1,28 +1,42 @@
 import {useParams} from 'react-router-dom';
-import {Offers, Offer, Review} from '../../types/offers';
+import {AuthorizationStatus} from '../../const';
 import Header from '../header/header';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import ReviewsList from '../reviews-list/reviews-list';
 import CommentForm from '../comment-form/comment-form';
 import Map from '../map/map';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import OfferList from '../offer-list/offer-list';
+import LoadingScreen from '../loading-screen/loading-screen';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {
+  fetchNearOffersAction,
+  fetchCommentsAction,
+  fetchActiveOfferAction
+} from '../../store/api-actions';
 
-type OfferProps = {
-  offers: Offers;
-  comments: Review[];
-  offersNear: Offers;
-}
-
-function PropertyScreen({offers, comments, offersNear}: OfferProps): JSX.Element  {
+function PropertyScreen(): JSX.Element  {
+  const {comments, offersNear, offer, authorizationStatus} = useAppSelector((state) => state);
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
   const handleCardHover = (offerId: number | null) => setActiveCardId(offerId);
 
   const {id} = useParams<{id?: string}>();
-  const offer: Offer | undefined = offers.find((item) => item.id === Number(id?.slice(1)));
+  const isLogin = authorizationStatus === AuthorizationStatus.Auth;
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCommentsAction(Number(id)));
+    dispatch(fetchNearOffersAction(Number(id)));
+    dispatch(fetchActiveOfferAction(Number(id)));
+  }, [id, dispatch]);
 
   if (!offer) {
     return (<NotFoundScreen/>);
+  }
+
+  if (!offer || !offersNear) {
+    return (<LoadingScreen />);
   }
 
   return (
@@ -124,7 +138,7 @@ function PropertyScreen({offers, comments, offersNear}: OfferProps): JSX.Element
                 </div>
                 <section className="property__reviews reviews">
                   <ReviewsList comments={comments}/>
-                  <CommentForm/>
+                  {isLogin && <CommentForm/>}
                 </section>
               </div>
             </div>

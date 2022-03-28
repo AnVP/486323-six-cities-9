@@ -31,8 +31,8 @@ function Map({offers, point, selectedPoint}:MapProps): JSX.Element {
     if (map) {
       offers.forEach((offer) => {
         const marker = new Marker({
-          lat: offer.city.location.latitude,
-          lng: offer.city.location.longitude,
+          lat: offer.location.latitude,
+          lng: offer.location.longitude,
         });
 
         marker.setIcon(selectedPoint !== undefined && offer.id === selectedPoint
@@ -41,7 +41,7 @@ function Map({offers, point, selectedPoint}:MapProps): JSX.Element {
         ).addTo(map);
       });
     }
-  }, [map, offers, selectedPoint]);
+  }, [map, offers, selectedPoint, point]);
 
   return (
     <div style={{height: '100%'}}

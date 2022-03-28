@@ -1,15 +1,12 @@
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import FavoritesCard from '../favorites-card/favorites-card';
-import {Offers} from '../../types/offers';
 import {Link} from 'react-router-dom';
+import {useAppSelector} from '../../hooks';
+import {State} from '../../types/state';
 
-type FavoritesScreenProps = {
-  offers: Offers;
-}
-
-
-function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element  {
+function FavoritesScreen(): JSX.Element  {
+  const offers = useAppSelector(({favoriteOffers}: State) => favoriteOffers);
   const locationList = new Set(offers.map((item) => item.city.name));
   return (
     <>
