@@ -3,11 +3,10 @@ import {useRef, FormEvent} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
 import {AuthData} from '../../types/auth-data';
-import {State} from '../../types/state';
 import Header from '../header/header';
 
 function LoginScreen(): JSX.Element {
-  const cityName = useAppSelector(({city}: State) => city);
+  const {city} = useAppSelector(({OFFER}) => OFFER);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
@@ -80,7 +79,7 @@ function LoginScreen(): JSX.Element {
             <section className="locations locations--login locations--current">
               <div className="locations__item">
                 <Link className="locations__item-link" to='/'>
-                  <span>{cityName}</span>
+                  <span>{city}</span>
                 </Link>
               </div>
             </section>

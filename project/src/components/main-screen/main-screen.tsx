@@ -1,31 +1,13 @@
-import {useState} from 'react';
 import Header from '../header/header';
 import Locations from '../locations/locations';
-import OfferList from '../offer-list/offer-list';
-import Map from '../map/map';
 import MainEmptyScreen from '../main-empty-screen/main-empty-screen';
-import PlacesSorting from '../places-sorting/places-sorting';
-import {Sort} from '../../types/sort';
-import {sortList} from '../../const';
-import {sortOffers} from '../../utils';
+import MainPlacesList from '../main-places-list/main-places-list';
 import {useAppSelector} from '../../hooks';
-import {State} from '../../types/state';
 
 function MainScreen(): JSX.Element  {
-  const cards = useAppSelector(({offers}: State) => offers);
-  const cityCurrent = useAppSelector(({city}: State) => city);
-  const filteredCityOffers = cards.filter((card) => card.city.name === cityCurrent);
-  let location;
-  filteredCityOffers.length
-    ? location = filteredCityOffers[0].city.location
-    : location = cards[0].city.location;
-
-  const [activeCardId, setActiveCardId] = useState<number | null>(null);
-
-  const handleCardHover = (offerId: number | null) => setActiveCardId(offerId);
-
-  const [sortType, setSortType] = useState<Sort>(sortList[0]);
-  const sortedOffers = sortOffers(sortType.type, filteredCityOffers);
+  const {offers} = useAppSelector(({DATA}) => DATA);
+  const {city} = useAppSelector(({OFFER}) => OFFER);
+  const filteredCityOffers = offers.filter((card) => card.city.name === city);
 
   return (
     <>
@@ -53,24 +35,10 @@ function MainScreen(): JSX.Element  {
           </div>
           <div className="cities">
             {filteredCityOffers.length ?
-              <div className="cities__places-container container">
-                <section className="cities__places places">
-                  <h2 className="visually-hidden">Places</h2>
-                  <b className="places__found">{filteredCityOffers.length} places to stay in {cityCurrent}</b>
-                  <PlacesSorting sortType={sortType} setSortType={setSortType}/>
-                  <div className="cities__places-list places__list tabs__content">
-                    <OfferList offers={sortedOffers} onCardHover={handleCardHover}/>
-                  </div>
-                </section>
-                <div className="cities__right-section">
-                  <section className="cities__map map">
-                    <Map offers={filteredCityOffers}
-                      point={location}
-                      selectedPoint={activeCardId}
-                    />
-                  </section>
-                </div>
-              </div>
+              <MainPlacesList
+                filteredCityOffers={filteredCityOffers}
+                cityCurrent={city}
+              />
               : <MainEmptyScreen/>}
           </div>
         </main>

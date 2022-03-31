@@ -16,7 +16,9 @@ import {
 } from '../../store/api-actions';
 
 function PropertyScreen(): JSX.Element  {
-  const {comments, offersNear, offer, authorizationStatus} = useAppSelector((state) => state);
+  const {comments, offersNear} = useAppSelector(({DATA}) => DATA);
+  const {offer} = useAppSelector(({OFFER}) => OFFER);
+  const {authorizationStatus} = useAppSelector(({USER}) => USER);
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
   const handleCardHover = (offerId: number | null) => setActiveCardId(offerId);
 
