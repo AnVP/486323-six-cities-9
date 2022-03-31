@@ -5,7 +5,7 @@ import {ReviewPost} from '../../types/offers';
 import {fetchAddCommentAction} from '../../store/api-actions';
 
 function CommentForm(): JSX.Element {
-  const {offer} = useAppSelector((state) => state);
+  const {offer} = useAppSelector(({OFFER}) => OFFER);
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
 

@@ -3,10 +3,9 @@ import Footer from '../footer/footer';
 import FavoritesCard from '../favorites-card/favorites-card';
 import {Link} from 'react-router-dom';
 import {useAppSelector} from '../../hooks';
-import {State} from '../../types/state';
 
 function FavoritesScreen(): JSX.Element  {
-  const offers = useAppSelector(({favoriteOffers}: State) => favoriteOffers);
+  const {offers} = useAppSelector(({DATA}) => DATA);
   const locationList = new Set(offers.map((item) => item.city.name));
   return (
     <>

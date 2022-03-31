@@ -39,6 +39,12 @@ export enum APIRoute {
   Comments = '/comments',
 }
 
+export enum NameSpace {
+  data = 'DATA',
+  offer = 'OFFER',
+  user = 'USER',
+}
+
 export const ratingList: {id: string, title: string}[] = [
   {
     id: '5-stars',

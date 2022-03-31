@@ -1,12 +1,15 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {api, store} from './index';
 import {Offers, Offer, Review, ReviewPost} from '../types/offers';
-import {setOffers, loadComments, requireAuthorization, setError, redirectToRoute, setFavoriteOffers, setActiveOffer, setOffersNear} from './action';
 import {saveToken, dropToken} from '../services/token';
 import {APIRoute, AuthorizationStatus, AppRoute, TIMEOUT_SHOW_ERROR} from '../const';
 import {errorHandle} from '../services/error-handle';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
+import {redirectToRoute} from './action';
+import {setError, setOffers, setFavoriteOffers, setOffersNear, loadComments} from './offer-data/offer-data';
+import {setActiveOffer} from './offer-process/offer-process';
+import {requireAuthorization} from './user-process/user-process';
 
 export const clearErrorAction = createAsyncThunk(
   'clearError',
