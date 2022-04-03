@@ -1,5 +1,5 @@
-import {useParams} from 'react-router-dom';
-import {AuthorizationStatus} from '../../const';
+import {useNavigate, useParams} from 'react-router-dom';
+import {APIRoute, AuthorizationStatus} from '../../const';
 import Header from '../header/header';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import ReviewsList from '../reviews-list/reviews-list';
@@ -12,15 +12,19 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {
   fetchNearOffersAction,
   fetchCommentsAction,
-  fetchActiveOfferAction
+  fetchActiveOfferAction,
+  fetchFavoriteStatusAction
 } from '../../store/api-actions';
 
 function PropertyScreen(): JSX.Element  {
   const {comments, offersNear} = useAppSelector(({DATA}) => DATA);
   const {offer} = useAppSelector(({OFFER}) => OFFER);
   const {authorizationStatus} = useAppSelector(({USER}) => USER);
+
   const [activeCardId, setActiveCardId] = useState<number | null>(null);
   const handleCardHover = (offerId: number | null) => setActiveCardId(offerId);
+
+  const [isFavorite, changeFavoriteStatus] = useState(offer?.isFavorite);
 
   const {id} = useParams<{id?: string}>();
   const isLogin = authorizationStatus === AuthorizationStatus.Auth;
@@ -31,7 +35,19 @@ function PropertyScreen(): JSX.Element  {
     dispatch(fetchCommentsAction(Number(id)));
     dispatch(fetchNearOffersAction(Number(id)));
     dispatch(fetchActiveOfferAction(Number(id)));
-  }, [id, dispatch]);
+  }, [id, dispatch, isFavorite, offersNear]);
+
+  const navigate = useNavigate();
+
+  const handleFavoriteButtonClick = async (offerId: number) => {
+    if (isLogin && offer) {
+      const favoriteStatus: number = offer.isFavorite ? 0 : 1;
+      await dispatch(fetchFavoriteStatusAction({id: Number(offerId), favoriteStatus}));
+      changeFavoriteStatus(!isFavorite);
+    }  else {
+      return navigate(APIRoute.Login);
+    }
+  };
 
   if (!offer) {
     return (<NotFoundScreen/>);
@@ -80,7 +96,13 @@ function PropertyScreen(): JSX.Element  {
                   <h1 className="property__name">
                     Beautiful &amp; luxurious studio at great location
                   </h1>
-                  <button className={`property__bookmark-button button ${offer.isFavorite ? 'property__bookmark-button--active' : ''}`} type="button">
+                  <button
+                    className={`property__bookmark-button button ${offer.isFavorite ? 'property__bookmark-button--active' : ''}`}
+                    type="button"
+                    onClick={() => {
+                      handleFavoriteButtonClick(offer.id);
+                    }}
+                  >
                     <svg className="property__bookmark-icon" width="31" height="33">
                       <use xlinkHref="#icon-bookmark"></use>
                     </svg>

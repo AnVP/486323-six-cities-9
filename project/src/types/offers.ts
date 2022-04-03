@@ -41,6 +41,11 @@ export type ReviewPost = {
   rating: number,
 }
 
+export type FavoriteStatusPost = {
+  id: number,
+  favoriteStatus: number,
+}
+
 export type Location = {
   latitude: number,
   longitude: number,

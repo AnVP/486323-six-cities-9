@@ -24,6 +24,11 @@ export const offerData = createSlice({
     },
     setFavoriteOffers: (state, action) => {
       state.favoriteOffers = action.payload;
+      state.isDataLoaded = true;
+    },
+    changeFavoriteStatusOffers: (state, action) => {
+      const index = state.offers.findIndex((offer) => offer.id === action.payload.id);
+      state.offers = [...state.offers.slice(0, index), action.payload, ...state.offers.slice(index + 1)];
     },
     setOffersNear: (state, action) => {
       state.offersNear = action.payload;
@@ -37,4 +42,4 @@ export const offerData = createSlice({
   },
 });
 
-export const {setOffers, loadComments, setOffersNear, setFavoriteOffers, setError} = offerData.actions;
+export const {setOffers, loadComments, setOffersNear, setFavoriteOffers, setError, changeFavoriteStatusOffers} = offerData.actions;
