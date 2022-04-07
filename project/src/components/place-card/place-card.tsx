@@ -1,5 +1,10 @@
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import classNames from 'classnames';
 import {Offer} from '../../types/offers';
+import {APIRoute, AuthorizationStatus} from '../../const';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchFavoriteStatusAction, fetchFavoriteOffersAction} from '../../store/api-actions';
+import {useState} from 'react';
 
 type OfferProps = {
   offer: Offer;
@@ -9,6 +14,31 @@ type OfferProps = {
 
 function PlaceCard(props: OfferProps): JSX.Element {
   const {offer, onMouseOver, onMouseLeave} = props;
+
+  const navigate = useNavigate();
+
+  const {authorizationStatus} = useAppSelector(({USER}) => USER);
+  const dispatch = useAppDispatch();
+
+  const [isFavorite, changeFavoriteStatus] = useState(offer.isFavorite);
+
+  const isLogin: boolean = authorizationStatus === AuthorizationStatus.Auth;
+
+  const buttonClassName = classNames({
+    'button': true,
+    'place-card__bookmark-button': true,
+    'place-card__bookmark-button--active': offer.isFavorite,
+  });
+
+  const handleFavoriteButtonClick = async (id: number) => {
+    if (isLogin) {
+      await dispatch(fetchFavoriteStatusAction({id, favoriteStatus: offer.isFavorite}));
+      await dispatch(fetchFavoriteOffersAction());
+      changeFavoriteStatus(!isFavorite);
+    }  else {
+      return navigate(APIRoute.Login);
+    }
+  };
 
   return (
     <article className="cities__place-card place-card"
@@ -32,7 +62,13 @@ function PlaceCard(props: OfferProps): JSX.Element {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${offer.isFavorite ? 'place-card__bookmark-button--active' : ''}`} type="button">
+          <button
+            className={buttonClassName}
+            type="button"
+            onClick={() => {
+              handleFavoriteButtonClick(offer.id);
+            }}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

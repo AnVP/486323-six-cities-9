@@ -1,5 +1,8 @@
 import {Link} from 'react-router-dom';
+import classNames from 'classnames';
 import {Offer} from '../../types/offers';
+import {fetchFavoriteStatusAction} from '../../store/api-actions';
+import {useAppDispatch} from '../../hooks';
 
 type OfferProps = {
   offer: Offer;
@@ -7,10 +10,22 @@ type OfferProps = {
 
 function FavoritesCard(props: OfferProps): JSX.Element {
   const {offer} = props;
+  const dispatch = useAppDispatch();
+
+  const buttonClassName = classNames({
+    'button': true,
+    'place-card__bookmark-button': true,
+    'place-card__bookmark-button--active': offer.isFavorite,
+  });
+
+  const handleFavoriteButtonClick = (id: number) => {
+    dispatch(fetchFavoriteStatusAction({id, favoriteStatus: offer.isFavorite}));
+  };
+
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/:${offer.id}`}>
+        <Link to={`/offer/${offer.id}`}>
           <img className="place-card__image"
             src={offer.previewImage}
             width="150"
@@ -25,7 +40,13 @@ function FavoritesCard(props: OfferProps): JSX.Element {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button button ${offer.isFavorite ? 'place-card__bookmark-button--active' : ''}`} type="button">
+          <button
+            className={buttonClassName}
+            type="button"
+            onClick={() => {
+              handleFavoriteButtonClick(offer.id);
+            }}
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

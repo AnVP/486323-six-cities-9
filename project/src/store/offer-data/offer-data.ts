@@ -1,15 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const';
 import {OfferData} from '../../types/state';
-import {comments} from '../../mocks/comments';
-import {favoriteOffers} from '../../mocks/favorites';
-import {offersNear} from '../../mocks/offers-near';
 
 const initialState: OfferData = {
   offers: [],
-  comments,
-  favoriteOffers,
-  offersNear,
+  comments: [],
+  favoriteOffers: [],
+  offersNear: [],
   isDataLoaded: false,
   error: '',
 };
@@ -24,6 +21,12 @@ export const offerData = createSlice({
     },
     setFavoriteOffers: (state, action) => {
       state.favoriteOffers = action.payload;
+      state.isDataLoaded = true;
+    },
+    changeFavoriteStatusOffers: (state, action) => {
+      const index = state.offers.findIndex((offer) => offer.id === action.payload.id);
+      state.offers[index] = action.payload;
+      state.favoriteOffers = state.favoriteOffers.filter((offer) => offer.id !== action.payload.id);
     },
     setOffersNear: (state, action) => {
       state.offersNear = action.payload;
@@ -37,4 +40,4 @@ export const offerData = createSlice({
   },
 });
 
-export const {setOffers, loadComments, setOffersNear, setFavoriteOffers, setError} = offerData.actions;
+export const {setOffers, loadComments, setOffersNear, setFavoriteOffers, setError, changeFavoriteStatusOffers} = offerData.actions;
