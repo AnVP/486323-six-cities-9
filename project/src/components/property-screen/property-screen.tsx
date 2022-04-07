@@ -41,8 +41,7 @@ function PropertyScreen(): JSX.Element  {
 
   const handleFavoriteButtonClick = async (offerId: number) => {
     if (isLogin && offer) {
-      const favoriteStatus: number = offer.isFavorite ? 0 : 1;
-      await dispatch(fetchFavoriteStatusAction({id: Number(offerId), favoriteStatus}));
+      await dispatch(fetchFavoriteStatusAction({id: Number(offerId), favoriteStatus: offer.isFavorite}));
       changeFavoriteStatus(!isFavorite);
     }  else {
       return navigate(APIRoute.Login);

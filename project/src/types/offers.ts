@@ -43,7 +43,7 @@ export type ReviewPost = {
 
 export type FavoriteStatusPost = {
   id: number,
-  favoriteStatus: number,
+  favoriteStatus: boolean,
 }
 
 export type Location = {

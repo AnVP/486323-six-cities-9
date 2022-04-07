@@ -1,4 +1,5 @@
 import {Link, useNavigate} from 'react-router-dom';
+import classNames from 'classnames';
 import {Offer} from '../../types/offers';
 import {APIRoute, AuthorizationStatus} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
@@ -19,14 +20,19 @@ function PlaceCard(props: OfferProps): JSX.Element {
   const {authorizationStatus} = useAppSelector(({USER}) => USER);
   const dispatch = useAppDispatch();
 
-  const [isFavorite, changeFavoriteStatus] = useState(offer?.isFavorite);
+  const [isFavorite, changeFavoriteStatus] = useState(offer.isFavorite);
 
   const isLogin: boolean = authorizationStatus === AuthorizationStatus.Auth;
 
+  const buttonClassName = classNames({
+    'button': true,
+    'place-card__bookmark-button': true,
+    'place-card__bookmark-button--active': offer.isFavorite,
+  });
+
   const handleFavoriteButtonClick = async (id: number) => {
     if (isLogin) {
-      const favoriteStatus: number = offer.isFavorite ? 0 : 1;
-      await dispatch(fetchFavoriteStatusAction({id, favoriteStatus}));
+      await dispatch(fetchFavoriteStatusAction({id, favoriteStatus: offer.isFavorite}));
       await dispatch(fetchFavoriteOffersAction());
       changeFavoriteStatus(!isFavorite);
     }  else {
@@ -57,7 +63,7 @@ function PlaceCard(props: OfferProps): JSX.Element {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button button ${offer.isFavorite ? 'place-card__bookmark-button--active' : ''}`}
+            className={buttonClassName}
             type="button"
             onClick={() => {
               handleFavoriteButtonClick(offer.id);

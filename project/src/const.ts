@@ -37,7 +37,6 @@ export enum APIRoute {
   Favorites = '/favorite',
   Nearby = '/nearby',
   Comments = '/comments',
-  Main = '/'
 }
 
 export enum NameSpace {

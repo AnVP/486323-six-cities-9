@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import classNames from 'classnames';
 import {Offer} from '../../types/offers';
 import {fetchFavoriteStatusAction} from '../../store/api-actions';
 import {useAppDispatch} from '../../hooks';
@@ -11,9 +12,14 @@ function FavoritesCard(props: OfferProps): JSX.Element {
   const {offer} = props;
   const dispatch = useAppDispatch();
 
+  const buttonClassName = classNames({
+    'button': true,
+    'place-card__bookmark-button': true,
+    'place-card__bookmark-button--active': offer.isFavorite,
+  });
+
   const handleFavoriteButtonClick = (id: number) => {
-    const favoriteStatus: number = offer.isFavorite ? 0 : 1;
-    dispatch(fetchFavoriteStatusAction({id, favoriteStatus}));
+    dispatch(fetchFavoriteStatusAction({id, favoriteStatus: offer.isFavorite}));
   };
 
   return (
@@ -35,7 +41,7 @@ function FavoritesCard(props: OfferProps): JSX.Element {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button button ${offer.isFavorite ? 'place-card__bookmark-button--active' : ''}`}
+            className={buttonClassName}
             type="button"
             onClick={() => {
               handleFavoriteButtonClick(offer.id);

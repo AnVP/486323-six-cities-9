@@ -106,7 +106,8 @@ export const fetchFavoriteStatusAction = createAsyncThunk(
   'data/fetchFavoriteStatus',
   async ({id, favoriteStatus}: FavoriteStatusPost) => {
     try {
-      const {data} = await api.post<Offer>(`${APIRoute.Favorites}/${id}/${favoriteStatus}`);
+      const status: number = favoriteStatus ? 0 : 1;
+      const {data} = await api.post<Offer>(`${APIRoute.Favorites}/${id}/${status}`);
       store.dispatch(changeFavoriteStatusOffers(data));
     } catch (error) {
       errorHandle(error);

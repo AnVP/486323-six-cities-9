@@ -2,7 +2,6 @@ import Header from '../header/header';
 import Footer from '../footer/footer';
 import FavoritesCard from '../favorites-card/favorites-card';
 import FavoritesEmptyScreen from '../favorites-empty-screen/favorites-empty-screen';
-import {Link} from 'react-router-dom';
 import {useAppSelector} from '../../hooks';
 import {useEffect} from 'react';
 import {store} from '../../store';
@@ -45,23 +44,27 @@ function FavoritesScreen(): JSX.Element  {
                   <h1 className="favorites__title">Saved listing</h1>
                   <ul className="favorites__list">
                     {
-                      [...locationList].map((location) => (
-                        <li key={location} className="favorites__locations-items">
-                          <div className="favorites__locations locations locations--current">
-                            <div className="locations__item">
-                              <Link to='/' className="locations__item-link">
-                                <span>{location}</span>
-                              </Link>
+                      [...locationList].map((location, index) => {
+                        const keyValue = location + index;
+
+                        return (
+                          <li key={keyValue} className="favorites__locations-items">
+                            <div className="favorites__locations locations locations--current">
+                              <div className="locations__item">
+                                <a href={`/#${location}`} className="locations__item-link">
+                                  <span>{location}</span>
+                                </a>
+                              </div>
                             </div>
-                          </div>
-                          <div className="favorites__places">
-                            {
-                              favoriteOffers.filter((offer) => offer.city.name === location).map(
-                                (offer) => <FavoritesCard offer={offer} key={offer.id} />)
-                            }
-                          </div>
-                        </li>
-                      ))
+                            <div className="favorites__places">
+                              {
+                                favoriteOffers.filter((offer) => offer.city.name === location).map(
+                                  (offer) => <FavoritesCard offer={offer} key={offer.id} />)
+                              }
+                            </div>
+                          </li>
+                        );
+                      })
                     }
                   </ul>
                 </section>
