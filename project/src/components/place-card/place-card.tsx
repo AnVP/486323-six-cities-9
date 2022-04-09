@@ -8,8 +8,8 @@ import {useState} from 'react';
 
 type OfferProps = {
   offer: Offer;
-  onMouseOver: (item: number) => void;
-  onMouseLeave: () => void;
+  onMouseOver?: (item: number) => void;
+  onMouseLeave?: () => void;
 }
 
 function PlaceCard(props: OfferProps): JSX.Element {
@@ -42,7 +42,7 @@ function PlaceCard(props: OfferProps): JSX.Element {
 
   return (
     <article className="cities__place-card place-card"
-      onMouseOver={() => onMouseOver(offer.id)}
+      onMouseOver={() => onMouseOver ? onMouseOver(offer.id) : undefined}
       onMouseLeave={onMouseLeave}
     >
       {offer.isPremium && <div className="place-card__mark"><span>Premium</span></div>}

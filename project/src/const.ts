@@ -11,10 +11,10 @@ export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const MIN_COMMENTS_LENGTH = 50;
 
-export enum HTTP_CODE {
-  BAD_REQUEST = 400,
-  UNAUTHORIZED = 401,
-  NOT_FOUND = 404,
+export enum HTTPCode {
+  BadRequest = 400,
+  Unauthorized = 401,
+  NotFound = 404,
 }
 
 export enum AppRoute {
@@ -40,9 +40,14 @@ export enum APIRoute {
 }
 
 export enum NameSpace {
-  data = 'DATA',
-  offer = 'OFFER',
-  user = 'USER',
+  Data = 'DATA',
+  Offer = 'OFFER',
+  User = 'USER',
+}
+
+export enum CommentsLength {
+  Min = 0,
+  Max = 10,
 }
 
 export const ratingList: {id: string, title: string}[] = [
@@ -77,7 +82,7 @@ export const cities = [
   'Dusseldorf',
 ];
 
-export const SortType = {
+export const sortType = {
   DEFAULT: 'default',
   PRICE_TO_HIGH: 'price-to-high',
   PRICE_TO_LOW: 'price-to-low',
@@ -86,19 +91,19 @@ export const SortType = {
 
 export const sortList: Sort[] = [
   {
-    type: SortType.DEFAULT,
+    type: sortType.DEFAULT,
     name: 'Popular',
   },
   {
-    type: SortType.PRICE_TO_HIGH,
+    type: sortType.PRICE_TO_HIGH,
     name: 'Price: low to high',
   },
   {
-    type: SortType.PRICE_TO_LOW,
+    type: sortType.PRICE_TO_LOW,
     name: 'Price: high to low',
   },
   {
-    type: SortType.TOP_RATED,
+    type: sortType.TOP_RATED,
     name: 'Top rated first',
   },
 ];

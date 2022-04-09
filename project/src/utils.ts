@@ -1,5 +1,5 @@
-import {Offer} from './types/offers';
-import {SortType} from './const';
+import {Offer, Review} from './types/offers';
+import {sortType, CommentsLength} from './const';
 
 const sortPriceToLow = (offerA: Offer, offerB: Offer) => offerB.price - offerA.price;
 
@@ -10,13 +10,13 @@ const sortRating = (offerA: Offer, offerB: Offer) => offerB.rating - offerA.rati
 export const sortOffers = (type: string, offers: Offer[]) => {
   const newOffers = [...offers];
   switch (type) {
-    case SortType.PRICE_TO_LOW: {
+    case sortType.PRICE_TO_LOW: {
       return newOffers.sort(sortPriceToLow);
     }
-    case SortType.PRICE_TO_HIGH: {
+    case sortType.PRICE_TO_HIGH: {
       return newOffers.sort(sortPriceToHigh);
     }
-    case SortType.TOP_RATED: {
+    case sortType.TOP_RATED: {
       return newOffers.sort(sortRating);
     }
     default: {
@@ -29,3 +29,8 @@ export const dateFormatted = (date: string) => new Date(date).toLocaleDateString
   month: 'long',
   year: 'numeric',
 });
+
+const sortCommentsToDate = (commentA: Review, commentB: Review) => new Date(commentB.date).getTime() - new Date(commentA.date).getTime();
+
+export const sortComments = (comments: Review[]) => comments.slice().sort(sortCommentsToDate).slice(CommentsLength.Min, CommentsLength.Max);
+

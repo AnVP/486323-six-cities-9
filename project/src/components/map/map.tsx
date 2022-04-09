@@ -1,5 +1,5 @@
-import {useRef, useEffect} from 'react';
-import {Icon, Marker} from 'leaflet';
+import {useRef, useEffect, useMemo} from 'react';
+import {Icon, LayerGroup, Marker} from 'leaflet';
 import useMap from '../../hooks/useMap';
 import {Offer, Location} from '../../types/offers';
 import 'leaflet/dist/leaflet.css';
@@ -9,6 +9,7 @@ type MapProps = {
   offers: Offer[];
   point: Location;
   selectedPoint: number | null;
+  selectedOffer?: Offer | null;
 }
 
 const defaultCustomIcon = new Icon({
@@ -23,9 +24,10 @@ const currentCustomIcon = new Icon({
   iconAnchor: [MARKER_ANCHOR_X, MARKER_ANCHOR_Y],
 });
 
-function Map({offers, point, selectedPoint}:MapProps): JSX.Element {
+function Map({offers, point, selectedPoint, selectedOffer = null}:MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, point);
+  const layerGroup = useMemo(()  => new LayerGroup(), []);
 
   useEffect(() => {
     if (map) {
@@ -38,10 +40,25 @@ function Map({offers, point, selectedPoint}:MapProps): JSX.Element {
         marker.setIcon(selectedPoint !== undefined && offer.id === selectedPoint
           ? currentCustomIcon
           : defaultCustomIcon,
-        ).addTo(map);
+        ).addTo(layerGroup);
       });
+
+      if (selectedOffer) {
+        const selectedMarker = new Marker({
+          lat: selectedOffer.location.latitude,
+          lng: selectedOffer.location.longitude,
+        });
+        selectedMarker.setIcon(currentCustomIcon).addTo(layerGroup);
+      }
+
+      layerGroup.addTo(map);
     }
-  }, [map, offers, selectedPoint, point]);
+
+    return () => {
+      layerGroup.clearLayers();
+    };
+
+  }, [map, offers, selectedPoint, point, selectedOffer, layerGroup]);
 
   return (
     <div style={{height: '100%'}}

@@ -21,9 +21,6 @@ function PropertyScreen(): JSX.Element  {
   const {offer} = useAppSelector(({OFFER}) => OFFER);
   const {authorizationStatus} = useAppSelector(({USER}) => USER);
 
-  const [activeCardId, setActiveCardId] = useState<number | null>(null);
-  const handleCardHover = (offerId: number | null) => setActiveCardId(offerId);
-
   const [isFavorite, changeFavoriteStatus] = useState(offer?.isFavorite);
 
   const {id} = useParams<{id?: string}>();
@@ -166,14 +163,14 @@ function PropertyScreen(): JSX.Element  {
               </div>
             </div>
             <section className="property__map map">
-              <Map offers={offersNear} point={offersNear[0].city.location} selectedPoint={activeCardId}/>
+              <Map offers={offersNear} point={offer.city.location} selectedPoint={offer.id} selectedOffer={offer} />
             </section>
           </section>
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <div className="near-places__list places__list">
-                <OfferList offers={offersNear} onCardHover={handleCardHover}/>
+                <OfferList offers={offersNear} />
               </div>
             </section>
           </div>

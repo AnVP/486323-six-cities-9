@@ -12,7 +12,7 @@ const initialState: OfferData = {
 };
 
 export const offerData = createSlice({
-  name: NameSpace.data,
+  name: NameSpace.Data,
   initialState,
   reducers: {
     setOffers: (state, action) => {
